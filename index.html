@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-lg-5 mt-sm-1 mt-3">
     <button onclick = "showForm()">Add Course</button>
     <button onclick = "showCourses()">Show Courses</button>
     <ul id="courses">
@@ -20,29 +20,29 @@
     <div class="container-sm">
         <form id="courses-form" hidden>
             <div class="row m-3 justify-content-center">
-                <div class="col-4 g-0 m-2">
+                <div class="col-sm-4 g-0 m-2">
                     <select name="name" id = "course-name-options" class="form-select">
                         <option selected>--Select course name--</option>
                     </select>
                 </div>
-                <div class="col-4 g-0 m-2">
+                <div class="col-sm-4 g-0 m-2">
                     <select name="lecturer" id = "lecturer-options" class="form-select">
                         <option selected>--Select lecturer name--</option>
                     </select>
                 </div>    
             </div> 
             <div class="row m-3 justify-content-center">
-                <div class="col-4 g-0 m-2">
+                <div class="col-sm-4 g-0 m-2">
                     <label for="hours" class="form-label">Hours</label>
                     <input class="form-control" type="number" name = "hours"  required>
                 </div>    
-                <div class="col-4 g-0 m-2">   
+                <div class="col-sm-4 g-0 m-2">   
                     <label for="cost" class="form-label">Cost</label> 
                     <input class="form-control" type="number" name = "cost"  required>
                 </div>
             </div>    
             <div class="row m-3 justify-content-center">
-                <div class="col-4 g-0 m-2">  
+                <div class="col-sm-4 g-0 m-2">  
                     <label for="openingDate" class="form-label">Opening Date</label>   
                     <input  class="form-control" type="date" name="openingDate" placeholder="opening date" required>
                 </div>
