@@ -28,14 +28,14 @@ const tableHandler = new TableHandler([
     {key: 'hours', displayName: 'Course Duration (h)'}
 ], "courses-table", "sortCourses");
 const lengthStatisticsTableHandler = new TableHandler([
-    {key: 'minInterval', displayName: 'minInterval'},
-    {key: 'maxInterval', displayName: 'maxInterval'},
-    {key: 'amount', displayName: 'amount'}
+    {key: 'minInterval', displayName: 'Minimal Length'},
+    {key: 'maxInterval', displayName: 'Maximal Length'},
+    {key: 'amount', displayName: 'Amount'}
 ], "hoursStatisticsTable");
 const costStatisticsTableHandler = new TableHandler([
-    {key: 'minInterval', displayName: 'minInterval'},
-    {key: 'maxInterval', displayName: 'maxInterval'},
-    {key: 'amount', displayName: 'amount'}
+    {key: 'minInterval', displayName: 'Minimal Cost'},
+    {key: 'maxInterval', displayName: 'Maximal Cost'},
+    {key: 'amount', displayName: 'Amount'}
 ], "costStatisticsTable");
 const formHandler = new FormHandler("courses-form", "alert");
 formHandler.addHandler(course => {
