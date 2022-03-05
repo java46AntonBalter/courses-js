@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 // Data processor
 export default class College {
     #courseData
@@ -17,7 +19,7 @@ export default class College {
         course.openingDate = new Date(course.openingDate);
         const validationMessage = this.#getValidationMessage(course);
         if(!validationMessage) {
-           return this.#courses.add(course);
+           return this.#courses.add(course);           
         } 
         return validationMessage;
     }
@@ -42,5 +44,29 @@ export default class College {
     }
     sortCourses(key) {
         return _.sortBy(this.getAllCourses(),key)
+    }
+    getHoursStatistic(lengthInterval) {
+        const statsLength = _.countBy(this.getAllCourses(), (course) => Math.floor(course.hours/lengthInterval)); 
+        const statsLengthArr = [];
+        statsLengthArr.push(Object.entries(statsLength).map(n => {
+            const statsLengthObj = {};
+            statsLengthObj.minInterval = n[0]*lengthInterval;
+            statsLengthObj.maxInterval = n[0]*lengthInterval + (lengthInterval - 1);
+            statsLengthObj.amount = n[1];
+            return statsLengthObj;
+        }))
+        return statsLengthArr;    
+    }
+    getCostStatistic(costInterval) {
+        const statsCost = _.countBy(this.getAllCourses(), (course) => Math.floor(course.cost/costInterval)); 
+        const statsCostArr = [];
+        statsCostArr.push(Object.entries(statsCost).map(n => {
+            const statsCostObj = {};
+            statsCostObj.minInterval = n[0]*costInterval;
+            statsCostObj.maxInterval = n[0]*costInterval + (costInterval - 1);
+            statsCostObj.amount = n[1];
+            return statsCostObj;
+        }))
+        return statsCostArr;    
     }
 }

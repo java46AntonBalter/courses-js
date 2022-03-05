@@ -5,7 +5,7 @@ import FormHandler from './ui/form_handler';
 import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash';
-const N_COURSES = 5;
+const N_COURSES = 100;
 function createCourses() {
     const courses = [];
     for (let i = 0; i < N_COURSES; i++) {
@@ -27,6 +27,16 @@ const tableHandler = new TableHandler([
     {key: 'cost', displayName: 'Cost (ILS)'},
     {key: 'hours', displayName: 'Course Duration (h)'}
 ], "courses-table", "sortCourses");
+const lengthStatisticsTableHandler = new TableHandler([
+    {key: 'minInterval', displayName: 'minInterval'},
+    {key: 'maxInterval', displayName: 'maxInterval'},
+    {key: 'amount', displayName: 'amount'}
+], "hoursStatisticsTable");
+const costStatisticsTableHandler = new TableHandler([
+    {key: 'minInterval', displayName: 'minInterval'},
+    {key: 'maxInterval', displayName: 'maxInterval'},
+    {key: 'amount', displayName: 'amount'}
+], "costStatisticsTable");
 const formHandler = new FormHandler("courses-form", "alert");
 formHandler.addHandler(course => {
     const res = dataProcessor.addCourse(course);
@@ -41,9 +51,25 @@ formHandler.fillOptions("lecturer-options", courseData.lectors);
 window.showForm = () => {
     formHandler.show();
     tableHandler.hideTable();
+    lengthStatisticsTableHandler.hideTable();
+    costStatisticsTableHandler.hideTable();
 }
 window.showCourses = () => {
     tableHandler.showTable(dataProcessor.getAllCourses());
+    formHandler.hide();
+    lengthStatisticsTableHandler.hideTable();
+    costStatisticsTableHandler.hideTable();
+}
+window.showLengthStatistics = () => {
+    lengthStatisticsTableHandler.showTable(dataProcessor.getHoursStatistic(courseData.lengthInterval));
+    costStatisticsTableHandler.hideTable();
+    tableHandler.hideTable();
+    formHandler.hide();
+}
+window.showCostStatistics = () => {
+    costStatisticsTableHandler.showTable(dataProcessor.getCostStatistic(courseData.costInterval));
+    lengthStatisticsTableHandler.hideTable();
+    tableHandler.hideTable();
     formHandler.hide();
 }
 window.sortCourses = (key) => {
