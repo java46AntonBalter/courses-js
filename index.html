@@ -8,17 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container mt-lg-5 mt-sm-1 mt-3">
-    <button onclick = "showForm()">Add Course</button>
-    <button onclick = "showCourses()">Show Courses</button>
-    <button onclick = "showLengthStatistics()">Length Statistics</button>
-    <button onclick = "showCostStatistics()">Cost Statistics</button>
-    <div id="alert">
+    <div class="container mt-lg-5 mt-sm-1 mt-3">        
+    <div class="row justify-content-evenly">
+        <button class="btn btn-outline-secondary col-2 d-inline" onclick="showForm()" style="font-size: 0.7rem;"><strong>Add Course</strong></button>
+        <button class="btn btn-outline-secondary col-2 d-inline" onclick="showCourses()" style="font-size: 0.7rem;"><strong>Show Courses</strong></button>
+        <button class="btn btn-outline-secondary col-3 d-inline" onclick="showLengthStatistics()" style="font-size: 0.7rem;"><strong>Length Statistics</strong></button>
+        <button class="btn btn-outline-secondary col-3 d-inline" onclick="showCostStatistics()" style="font-size: 0.7rem;"><strong>Cost Statistics</strong></button>
+        <div id="alert">
+    </div>
 
     </div>
     <div class="container-sm">
         <form id="courses-form" hidden>
-            <div class="row m-3 justify-content-center">
+            <div class="row m-2 m-lg-4 justify-content-center">
                 <div class="col-sm-4 g-0 m-2">
                     <select name="name" id = "course-name-options" class="form-select" required>
                         <option value hidden disabled selected>--Select course name--</option>
@@ -30,7 +32,7 @@
                     </select>
                 </div>    
             </div> 
-            <div class="row m-3 justify-content-center">
+            <div class="row m-2 m-lg-4 justify-content-center">
                 <div class="col-sm-4 g-0 m-2">
                     <label for="hours" class="form-label">Hours</label>
                     <input class="form-control" type="number" name = "hours"  required>
@@ -40,7 +42,7 @@
                     <input class="form-control" type="number" name = "cost"  required>
                 </div>
             </div>    
-            <div class="row m-3 justify-content-center">
+            <div class="row m-2 m-lg-4 justify-content-center">
                 <div class="col-sm-4 g-0 m-2">  
                     <label for="openingDate" class="form-label">Opening Date</label>   
                     <input  class="form-control" type="date" name="openingDate" placeholder="opening date" required>
@@ -51,13 +53,7 @@
                 <button  class="btn btn-outline-secondary col-3 d-inline" type="reset">Reset</button>
             </div>
     </form></div>
-    <table class="table table-responsive" id="courses-table">
-    
-    </table>
-    <table class="table table-responsive" id="hoursStatisticsTable">
-    
-    </table>
-    <table class="table table-responsive" id="costStatisticsTable">
+    <table class="table table-responsive mt-2 mt-lg-4" id="courses-table">
     
     </table>
     </div>

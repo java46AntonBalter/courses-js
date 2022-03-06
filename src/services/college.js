@@ -45,28 +45,15 @@ export default class College {
     sortCourses(key) {
         return _.sortBy(this.getAllCourses(),key)
     }
-    getHoursStatistic(lengthInterval) {
-        const statsLength = _.countBy(this.getAllCourses(), (course) => Math.floor(course.hours/lengthInterval)); 
-        const statsLengthArr = [];
-        statsLengthArr.push(Object.entries(statsLength).map(n => {
-            const statsLengthObj = {};
-            statsLengthObj.minInterval = n[0]*lengthInterval;
-            statsLengthObj.maxInterval = n[0]*lengthInterval + (lengthInterval - 1);
-            statsLengthObj.amount = n[1];
-            return statsLengthObj;
-        }))
-        return statsLengthArr;    
-    }
-    getCostStatistic(costInterval) {
-        const statsCost = _.countBy(this.getAllCourses(), (course) => Math.floor(course.cost/costInterval)); 
-        const statsCostArr = [];
-        statsCostArr.push(Object.entries(statsCost).map(n => {
-            const statsCostObj = {};
-            statsCostObj.minInterval = n[0]*costInterval;
-            statsCostObj.maxInterval = n[0]*costInterval + (costInterval - 1);
-            statsCostObj.amount = n[1];
-            return statsCostObj;
-        }))
-        return statsCostArr;    
+    getStatistic(key, interval) {
+        const stats = _.countBy(this.getAllCourses(), (course) => Math.floor(course[key]/interval)); 
+        const statsArr = Object.entries(stats).map(n => {
+            const statsObj = {};
+            statsObj.minInterval = n[0]*interval;
+            statsObj.maxInterval = n[0]*interval + (interval - 1);
+            statsObj.amount = n[1];
+            return statsObj;
+        });
+        return statsArr;    
     }
 }
