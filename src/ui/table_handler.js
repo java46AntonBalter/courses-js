@@ -1,38 +1,51 @@
 export default class TableHandler {
-    #tableELem
+    #tableElem
     #columnsDefinition
     #sortFnName
-    constructor(columnsDefinition, idTable, sortFnName) {
-        //example of columnsDefinition: 
-        // const columns = [{'key': 'name', 'displayName': 'Course Name'},{'key': 'lecturer', 'displayName': 'Lecturer Name'}........ ]
+    #removeFnName
+    constructor(columnsDefinition, idTable, sortFnName, removeFnName) {
+        //example of columnsDefinition:
+        // const columns = [{'key': 'name', 'displayName':'Course Name'},
+        // {'key': 'lecturer', 'displayName': 'Lecturer Name'}... ]
         this.#sortFnName = sortFnName ?? '';
+        this.#removeFnName = removeFnName ?? '';
         this.#columnsDefinition = columnsDefinition;
-        this.#tableELem = document.getElementById(idTable);
-        if(!this.#tableELem) {
+        this.#tableElem = document.getElementById(idTable);
+        if (!this.#tableElem) {
             throw "Table element is not defined"
         }
-        
+
 
     }
     showTable(objects) {
-        this.#tableELem.innerHTML = `${this.#getHeader()}${this.#getBody(objects)}`;
+        this.#tableElem.innerHTML = `${this.#getHeader()}${this.#getBody(objects)}`;
     }
     hideTable() {
-        this.#tableELem.innerHTML = '';
+        this.#tableElem.innerHTML = ''
     }
     #getHeader() {
         return `<thead><tr>${this.#getColumns()}</tr></thead>`
     }
     #getColumns() {
-        return this.#columnsDefinition.map(c => `<th onclick="${this.#getSortFn(c)}">${c.displayName}</th>`).join('');
+        const columns = this.#columnsDefinition
+        .map(c => `<th onclick="${this.#getSortFn(c)}">${c.displayName}</th>`);
+        if (this.#removeFnName) {
+            columns.push("<th></th>");
+        }
+        return columns.join('');
     }
     #getSortFn(columnDefinition) {
-        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')` : '';
+        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')` : ''
     }
     #getBody(objects) {
         return objects.map(o => `<tr>${this.#getRecord(o)}</tr>`).join('');
     }
     #getRecord(object) {
-        return this.#columnsDefinition.map(c => `<td>${object[c.key]}</td>`).join('');
+        const record =  this.#columnsDefinition.map(c => `<td>${object[c.key]}</td>`);
+        if (this.#removeFnName) {
+
+            record.push(`<td><i style="cursor:pointer" class="bi bi-trash-fill"onclick="${this.#removeFnName}('${object.id}')"></i></td>`)
+        }
+        return record.join('');
     }
 }
