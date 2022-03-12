@@ -28,14 +28,14 @@ export default class TableHandler {
     }
     #getColumns() {
         const columns = this.#columnsDefinition
-        .map(c => `<th title="sort by ${c.displayName}" style="cursor:pointer" onclick="${this.#getSortFn(c)}">${c.displayName}</th>`);
+        .map(c => `<th onclick="${this.#getSortFn(c)}>${c.displayName}</th>`);
         if (this.#removeFnName) {
             columns.push("<th></th>");
         }
         return columns.join('');
     }
     #getSortFn(columnDefinition) {
-        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')` : ''
+        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')" title="sort by ${columnDefinition.key}" style="cursor:pointer"` : ''
     }
     #getBody(objects) {
         return objects.map(o => `<tr>${this.#getRecord(o)}</tr>`).join('');

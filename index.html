@@ -18,12 +18,16 @@
     <div id="alert">
 
     </div>
-   
-    <button id="0" onclick="showForm()">Add Course</button>
-    <button id="1" onclick="showCourses()">Show Courses</button>
-    <button id="2" onclick="showHoursStatistics()">Show Hours Statistics</button>
-    <button id="3" onclick="showCostStatistics()">Show Cost Statistics</button>
-    <button id="4" onclick="showGeneration()">Show Generate Courses</button>
+    <div class="container">
+    <div class="row justify-content-evenly mt-5 mt-sm-4 mt-lg-5 w-75">
+        <button id="0" class="col-2 btn btn-outline-secondary" onclick="showForm()">Add Course</button>
+        <button id="1" class="col-2 btn btn-outline-secondary" onclick="showCourses()">Show Courses</button>
+        <button id="2" class="col-2 btn btn-outline-secondary" onclick="showHoursStatistics()">Hours Statistics</button>
+        <button id="3" class="col-2 btn btn-outline-secondary" onclick="showCostStatistics()">Cost Statistics</button>
+        <button id="4" class="col-2 btn btn-outline-secondary" onclick="showGeneration()">Generate Courses</button>
+    </div>
+    </div>
+
     <div id="alert"></div>
     <form id="generation-form" class="mt-5 mt-lg-5 mt-sm-2" hidden>
         <div class="container mt-4">
