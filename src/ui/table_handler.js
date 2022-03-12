@@ -35,7 +35,7 @@ export default class TableHandler {
         return columns.join('');
     }
     #getSortFn(columnDefinition) {
-        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')" title="sort by ${columnDefinition.key}" style="cursor:pointer` : '"'
+        return this.#sortFnName ? `${this.#sortFnName}('${columnDefinition.key}')" title="Sort by ${columnDefinition.key}" style="cursor:pointer` : '"'
     }
     #getBody(objects) {
         return objects.map(o => `<tr>${this.#getRecord(o)}</tr>`).join('');
@@ -44,7 +44,7 @@ export default class TableHandler {
         const record =  this.#columnsDefinition.map(c => `<td>${object[c.key]}</td>`);
         if (this.#removeFnName) {
 
-            record.push(`<td><i style="cursor:pointer" class="bi bi-trash-fill"onclick="${this.#removeFnName}('${object.id}')"></i></td>`)
+            record.push(`<td><i style="cursor:pointer" title='Delete item' class="bi bi-trash-fill"onclick="${this.#removeFnName}('${object.id}')"></i></td>`)
         }
         return record.join('');
     }
