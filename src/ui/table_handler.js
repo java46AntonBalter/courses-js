@@ -28,7 +28,7 @@ export default class TableHandler {
     }
     #getColumns() {
         const columns = this.#columnsDefinition
-        .map(c => `<th onclick="${this.#getSortFn(c)}">${c.displayName}</th>`);
+        .map(c => `<th title="sort by ${c.displayName}" style="cursor:pointer" onclick="${this.#getSortFn(c)}">${c.displayName}</th>`);
         if (this.#removeFnName) {
             columns.push("<th></th>");
         }
