@@ -42,11 +42,11 @@ export default class College {
     async getAllCourses() {
         return await this.#courses.get()
     }
-    sortCourses(key) {
-        return _.sortBy(this.getAllCourses(), key)
+    async sortCourses(key) {
+        return _.sortBy(await this.getAllCourses(), key)
     }
-    #getStatistics(interval, field) {
-        const courses = this.getAllCourses();
+    async #getStatistics(interval, field) {
+        const courses = await this.getAllCourses();
         const objStat =  _.countBy(courses, e => {   
             return Math.floor(e[field]/interval);
          });
@@ -56,11 +56,11 @@ export default class College {
                 amount: objStat[s]}
          })
     }
-     getHoursStatistics(lengthInterval){
-        return this.#getStatistics(lengthInterval, 'hours');
+    async getHoursStatistics(lengthInterval){
+        return await this.#getStatistics(lengthInterval, 'hours');
     }
-    getCostStatistics(lengthInterval) {
-        return this.#getStatistics(lengthInterval, 'cost')
+    async getCostStatistics(lengthInterval) {
+        return await this.#getStatistics(lengthInterval, 'cost')
     }
     removeCourse(id) {
         if (!this.#courses.exists(id)) {
