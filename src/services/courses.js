@@ -1,14 +1,10 @@
-import Spinner from "../ui/spinner";
-const spinner = new Spinner("spinner");
 // fake Data provisioning module
 
 import { getRandomNumber } from "../utils/random";
 function getPromise(timeout, value) {
     return new Promise(resolve => {
-        spinner.startSpinner()
         setTimeout(() => {
             resolve(value)
-            spinner.stopSpinner()
         }, timeout)
     })
 }

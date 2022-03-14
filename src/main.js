@@ -6,6 +6,8 @@ import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash'
 import NavigatorButtons from './ui/navigator_buttons';
+import Spinner from './ui/spinner';
+const spinner = new Spinner("spinner");
 const N_COURSES = 5;
 const statisticsColumnDefinition = [
     { key: "minInterval", displayName: "From" },
@@ -27,17 +29,21 @@ const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
 const navigator = new NavigatorButtons(["0","1","2", "3", "4"])
 formHandler.addHandler(async course => {
-    const res = await dataProcessor.addCourse(course);
+    const res = await spinner.spinnerFn(dataProcessor.addCourse(course));
     if (typeof (res) !== 'string') {
         return '';
     }
     return res;
 
 })
-generationHandler.addHandler(generation => {
-    for (let i=0; i < generation.nCourses; i++) {
-        dataProcessor.addCourse(getRandomCourse(courseData));
-    }
+generationHandler.addHandler(async generation => {
+    await spinner.spinnerFn(
+        (async () => {
+            for (let i=0; i < generation.nCourses; i++) {
+                await dataProcessor.addCourse(getRandomCourse(courseData));
+            }
+        })()
+    );
     return '';
 })
 formHandler.fillOptions("course-name-options", courseData.courses);
@@ -68,28 +74,28 @@ window.showForm = () => {
 window.showCourses = async () => {
     hide();
     navigator.setActive(1);
-    tableHandler.showTable(await dataProcessor.getAllCourses());
+    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
 
 }
 window.showHoursStatistics = async () => {
     hide()
     navigator.setActive(2);
-    tableHoursStatistics.showTable(await dataProcessor.getHoursStatistics(courseData.hoursInterval));
+    tableHoursStatistics.showTable(await spinner.spinnerFn(dataProcessor.getHoursStatistics(courseData.hoursInterval)));
 
 }
 window.showCostStatistics = async () => {
     hide()
     navigator.setActive(3);
-    tableCostStatistics.showTable(await dataProcessor.getCostStatistics(courseData.costInterval));
+    tableCostStatistics.showTable(await spinner.spinnerFn(dataProcessor.getCostStatistics(courseData.costInterval)));
 
 }
 window.sortCourses = async (key) => {
-    tableHandler.showTable(await dataProcessor.sortCourses(key))
+    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.sortCourses(key)));
 }
 window.removeCourse = async (id) => {
     if (window.confirm(`you are going to remove course id: ${id}`)) {
-        dataProcessor.removeCourse(+id);
-        tableHandler.showTable(await dataProcessor.getAllCourses());
+        await spinner.spinnerFn(dataProcessor.removeCourse(+id));
+        tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
     }
 
 }
