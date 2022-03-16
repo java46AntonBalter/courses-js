@@ -13,6 +13,10 @@ export default class Spinner {
         this.#spinnerElem.removeAttribute("class");
         this.#spinnerElem.innerHTML = '';
     }
+    hideSpnner(){
+        this.#spinnerElem.removeAttribute("class");
+        this.#spinnerElem.innerHTML = '';
+    }
     async spinnerFn(promise) {
         this.#startSpinner();
         const res = await promise;

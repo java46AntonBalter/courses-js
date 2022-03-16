@@ -40,8 +40,6 @@ formHandler.addHandler(async course => {
         return res;
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 })
@@ -57,8 +55,6 @@ generationHandler.addHandler(async generation => {
         return '';
     } catch (err) {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 })
@@ -75,6 +71,7 @@ function hide() {
     generationHandler.hide();
     tableHoursStatistics.hideTable();
     tableCostStatistics.hideTable();
+    spinner.hideSpnner();
 
 }
 window.showGeneration = () => {
@@ -95,8 +92,6 @@ window.showCourses = async () => {
         tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 }
@@ -107,8 +102,6 @@ window.showHoursStatistics = async () => {
         tableHoursStatistics.showTable(await spinner.spinnerFn(dataProcessor.getHoursStatistics(courseData.hoursInterval)));
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 
@@ -120,8 +113,6 @@ window.showCostStatistics = async () => {
         tableCostStatistics.showTable(await spinner.spinnerFn(dataProcessor.getCostStatistics(courseData.costInterval)));
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 
@@ -132,8 +123,6 @@ window.sortCourses = async (key) => {
         tableHandler.showTable(await spinner.spinnerFn(dataProcessor.sortCourses(key)));
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 }
@@ -145,8 +134,6 @@ window.removeCourse = async (id) => {
         }
     } catch {
         hide();
-        document.getElementById("spinner").removeAttribute("class");
-        document.getElementById("spinner").innerHTML = '';
         serverAlert.showAlert();
     }
 
