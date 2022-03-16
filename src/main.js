@@ -1,12 +1,14 @@
 import courseData from './config/courseData.json'
 import College from './services/college';
-import Courses from './services/courses';
+import { dataProvider } from './config/services-config';
 import FormHandler from './ui/form_handler';
 import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash'
 import NavigatorButtons from './ui/navigator_buttons';
 import Spinner from './ui/spinner';
+import Alert from './ui/alert';
+const serverAlert = new Alert("server-alert");
 const spinner = new Spinner("spinner");
 const N_COURSES = 5;
 const statisticsColumnDefinition = [
@@ -16,14 +18,15 @@ const statisticsColumnDefinition = [
 ]
 
 
-const dataProvider = new Courses(courseData.minId, courseData.maxId);
+
 const dataProcessor = new College(dataProvider, courseData);
 const tableHandler = new TableHandler([
     { key: 'id', displayName: 'ID' },
     { key: 'name', displayName: 'Course' },
     { key: 'lecturer', displayName: 'Lecturer' },
     { key: 'cost', displayName: "Cost (ILS)" },
-    { key: 'hours', displayName: "Duration (h)" }
+    { key: 'hours', displayName: "Duration (h)" },
+    { key: 'openDate', displayName: "Opening Date" }
 ], "courses-table", "sortCourses", "removeCourse");
 const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
@@ -37,14 +40,20 @@ formHandler.addHandler(async course => {
 
 })
 generationHandler.addHandler(async generation => {
-    await spinner.spinnerFn(
-        (async () => {
-            for (let i=0; i < generation.nCourses; i++) {
-                await dataProcessor.addCourse(getRandomCourse(courseData));
-            }
-        })()
-    );
-    return '';
+    try { await spinner.spinnerFn(
+            (async () => {
+                for (let i = 0; i < generation.nCourses; i++) {
+                    await dataProcessor.addCourse(getRandomCourse(courseData));
+                }
+            })()
+        );
+        return '';
+    } catch (err) {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
+    }
 })
 formHandler.fillOptions("course-name-options", courseData.courses);
 formHandler.fillOptions("lecturer-options", courseData.lectors);
@@ -74,8 +83,7 @@ window.showForm = () => {
 window.showCourses = async () => {
     hide();
     navigator.setActive(1);
-    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
-
+    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses())); 
 }
 window.showHoursStatistics = async () => {
     hide()

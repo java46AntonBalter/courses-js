@@ -41,11 +41,17 @@ export default class TableHandler {
         return objects.map(o => `<tr>${this.#getRecord(o)}</tr>`).join('');
     }
     #getRecord(object) {
-        const record =  this.#columnsDefinition.map(c => `<td>${object[c.key]}</td>`);
+        const record =  this.#columnsDefinition.map(c => {
+            if (c.key === 'openDate'){
+                let tempDate = '' + object[c.key];
+                object[c.key] = tempDate.slice(0,10);
+            }
+            return `<td>${object[c.key]}</td>`});
         if (this.#removeFnName) {
 
             record.push(`<td><i style="cursor:pointer" title='Delete item' class="bi bi-trash-fill"onclick="${this.#removeFnName}('${object.id}')"></i></td>`)
         }
+        
         return record.join('');
     }
 }

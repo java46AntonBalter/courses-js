@@ -16,7 +16,7 @@ export default class College {
         //converting from strings to the proper types
         course.hours = +course.hours;
         course.cost = +course.cost;
-        course.openingDate = new Date(course.openingDate);
+        course.openDate = new Date(course.openDate);
         const validationMessage = this.#getValidationMessage(course);
         if(!validationMessage) {
            return await this.#courses.add(course);
@@ -25,7 +25,7 @@ export default class College {
     }
     #getValidationMessage(course) {
         const {minCost, maxCost, minHours, maxHours, minYear, maxYear, lectors, courses} = this.#courseData;
-        const {cost, hours, openingDate, lecturer, name} = course
+        const {cost, hours, openDate, lecturer, name} = course
         
         let message = '';
         message += cost > maxCost || cost < minCost ?
@@ -34,7 +34,7 @@ export default class College {
          `wrong hours value - should be in range [${minHours}-${maxHours}] <br>`: '';
          message += !lectors.includes(lecturer) ? `wrong lecturer name - should be one from ${lectors} <br>`: '';
          message += !courses.includes(name) ? `wrong course name - should be one from ${courses}`:'';
-         const year = openingDate.getFullYear();
+         const year = openDate.getFullYear();
          message += year < minYear || year > maxYear ?
           `wrong opening date - year should be in range [${minYear} - ${maxYear}]` : ''
          return message;
@@ -62,8 +62,8 @@ export default class College {
     async getCostStatistics(lengthInterval) {
         return await this.#getStatistics(lengthInterval, 'cost')
     }
-    removeCourse(id) {
-        if (!this.#courses.exists(id)) {
+    async removeCourse(id) {
+        if (!await this.#courses.exists(id)) {
             throw `course with id ${id} not found`
         }
         return this.#courses.remove(id);
