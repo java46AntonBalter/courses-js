@@ -32,12 +32,14 @@ const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
 const navigator = new NavigatorButtons(["0","1","2", "3", "4"])
 formHandler.addHandler(async course => {
-    const res = await spinner.spinnerFn(dataProcessor.addCourse(course));
-    if (typeof (res) !== 'string') {
-        return '';
+    try { await spinner.spinnerFn(
+        (async() => await dataProcessor.addCourse(course)))();
+    } catch (err) {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
     }
-    return res;
-
 })
 generationHandler.addHandler(async generation => {
     try { await spinner.spinnerFn(
