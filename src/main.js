@@ -30,9 +30,10 @@ const tableHandler = new TableHandler([
 ], "courses-table", "sortCourses", "removeCourse");
 const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
-const navigator = new NavigatorButtons(["0","1","2", "3", "4"])
+const navigator = new NavigatorButtons(["0", "1", "2", "3", "4"])
 formHandler.addHandler(async course => {
-    try { const res = await spinner.spinnerFn(dataProcessor.addCourse(course));
+    try {
+        const res = await spinner.spinnerFn(dataProcessor.addCourse(course));
         if (typeof (res) !== 'string') {
             return '';
         }
@@ -45,7 +46,8 @@ formHandler.addHandler(async course => {
     }
 })
 generationHandler.addHandler(async generation => {
-    try { await spinner.spinnerFn(
+    try {
+        await spinner.spinnerFn(
             (async () => {
                 for (let i = 0; i < generation.nCourses; i++) {
                     await dataProcessor.addCourse(getRandomCourse(courseData));
@@ -89,27 +91,63 @@ window.showForm = () => {
 window.showCourses = async () => {
     hide();
     navigator.setActive(1);
-    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses())); 
+    try {
+        tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
+    } catch {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
+    }
 }
 window.showHoursStatistics = async () => {
     hide()
     navigator.setActive(2);
-    tableHoursStatistics.showTable(await spinner.spinnerFn(dataProcessor.getHoursStatistics(courseData.hoursInterval)));
+    try {
+        tableHoursStatistics.showTable(await spinner.spinnerFn(dataProcessor.getHoursStatistics(courseData.hoursInterval)));
+    } catch {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
+    }
 
 }
 window.showCostStatistics = async () => {
     hide()
     navigator.setActive(3);
-    tableCostStatistics.showTable(await spinner.spinnerFn(dataProcessor.getCostStatistics(courseData.costInterval)));
+    try {
+        tableCostStatistics.showTable(await spinner.spinnerFn(dataProcessor.getCostStatistics(courseData.costInterval)));
+    } catch {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
+    }
+
 
 }
 window.sortCourses = async (key) => {
-    tableHandler.showTable(await spinner.spinnerFn(dataProcessor.sortCourses(key)));
+    try {
+        tableHandler.showTable(await spinner.spinnerFn(dataProcessor.sortCourses(key)));
+    } catch {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
+    }
 }
 window.removeCourse = async (id) => {
-    if (window.confirm(`you are going to remove course id: ${id}`)) {
-        await spinner.spinnerFn(dataProcessor.removeCourse(+id));
-        tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
+    try {
+        if (window.confirm(`you are going to remove course id: ${id}`)) {
+            await spinner.spinnerFn(dataProcessor.removeCourse(+id));
+            tableHandler.showTable(await spinner.spinnerFn(dataProcessor.getAllCourses()));
+        }
+    } catch {
+        hide();
+        document.getElementById("spinner").removeAttribute("class");
+        document.getElementById("spinner").innerHTML = '';
+        serverAlert.showAlert();
     }
 
 }
