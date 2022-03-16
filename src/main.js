@@ -32,9 +32,12 @@ const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
 const navigator = new NavigatorButtons(["0","1","2", "3", "4"])
 formHandler.addHandler(async course => {
-    try { await spinner.spinnerFn(
-        (async() => await dataProcessor.addCourse(course)))();
-    } catch (err) {
+    try { const res = await spinner.spinnerFn(dataProcessor.addCourse(course));
+        if (typeof (res) !== 'string') {
+            return '';
+        }
+        return res;
+    } catch {
         hide();
         document.getElementById("spinner").removeAttribute("class");
         document.getElementById("spinner").innerHTML = '';
@@ -64,6 +67,7 @@ const tableHoursStatistics =
 const tableCostStatistics =
     new TableHandler(statisticsColumnDefinition, "courses-table");
 function hide() {
+    serverAlert.hideAlert();
     tableHandler.hideTable();
     formHandler.hide();
     generationHandler.hide();
